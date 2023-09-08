@@ -4,34 +4,52 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-.App {
-  text-align: center;
+img{
+  max-width: 100%;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.home__wrapper{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.home__wrapper--form{
+  flex: 1;
+  max-width: 500px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.home__img{
+  max-width: 500px;
+  max-height: 700px;
+}
+
+form{
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  margin-top: 2rem;
 }
 
-.App-link {
-  color: #61dafb;
+.inputLabel{
+  margin-bottom: 3px;
+  margin-top: 10px;
+  font-weight: bold;
+  color: #000;
+}
+
+.form__state--div{
+  margin: 10px 0 5px;
+  display: flex;
+}
+
+.form__state--div div{
+  min-width: 50%;
+  flex: 1;
+}
+
+button{
+  max-width: 60px;
+  align-self: flex-end;
 }
 
 @keyframes App-logo-spin {
