@@ -6,18 +6,18 @@ import './header.css'
 
 const Header = () => {
     return (
-        <Appbar position='static'>
+        <Appbar position='static' sx={{ bgcolor: '#000'}}>
             <Toolbar>
                 <Link
                     variant='h4'
                     sx={{ flexGrow: 1 }}
-                    href="#"
+                    href="/"
                     color='#fff'
                     underline='none'
                 >
                     HRNET
                 </Link>
-                <Link href="../pages/EmployeeList" underline="none" color="#fff">
+                <Link href="/EmployeeList" underline="none" color="#fff">
                     View Current List Employees
                 </Link>
             </Toolbar>

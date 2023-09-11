@@ -1,4 +1,4 @@
-import { Container, Typography, FormControl, TextField, Select, MenuItem, InputLabel, Button } from '@mui/material'
+import { Container, Typography, TextField, Select, MenuItem, InputLabel, Button } from '@mui/material'
 import React, { useState } from 'react';
 
 
@@ -7,50 +7,69 @@ import Team from '../../assets/team_meeting.jpg'
 
 function App() {
 
-  const EmployeeForm = () => {
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [state, setState] = useState('');
-    const [dateBirth, setDateBirth] = useState('');
-    const [datestart, setDateStart] = useState('');
-    const [adress, setAdress] = useState('');
-    const [city, setCity] = useState('');
-    const [department, setDepartment] = useState('');
-    const [zipCode, setZipCode] = useState('');
+  const [employees, setEmployees] = useState([])
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [state, setState] = useState('');
+  const [dateBirth, setDateBirth] = useState('');
+  const [dateStart, setDateStart] = useState('');
+  const [adress, setAdress] = useState('');
+  const [city, setCity] = useState('');
+  const [department, setDepartment] = useState('');
+  const [zipCode, setZipCode] = useState('');
 
-    const handleFirstName = (event) => {
-      setFirstName(event.target.value)
-    }
-    const handleLastName = (event) => {
-      setLastName(event.target.value)
-    }
-    const handleState = (event) => {
-      setState(event.target.value)
-    }
-    const handleDateBirth = (event) => {
-      setDateBirth(event.target.value)
-    }
-    const handleZipCode = (event) => {
-      const value = event.target.value.replace(/\D/g, '')
-      setZipCode(value)
-    }
-    const handleDateStart = (event) => {
-      setDateStart(event.target.value)
-    }
-    const handleAdress = (event) => {
-      setAdress(event.target.value)
-    }
-    const handleCity = (event) => {
-      setCity(event.target.value)
-    }
-    const handleDepartment = (event) => {
-      setDepartment(event.target.value)
-    }
-
+  const handleFirstName = (event) => {
+    setFirstName(event.target.value)
   }
-
+  const handleLastName = (event) => {
+    setLastName(event.target.value)
+  }
+  const handleState = (event) => {
+    setState(event.target.value)
+  }
+  const handleDateBirth = (event) => {
+    setDateBirth(event.target.value)
+  }
+  const handleZipCode = (event) => {
+    const value = event.target.value.replace(/\D/g, '')
+    setZipCode(value)
+  }
+  const handleDateStart = (event) => {
+    setDateStart(event.target.value)
+  }
+  const handleAdress = (event) => {
+    setAdress(event.target.value)
+  }
+  const handleCity = (event) => {
+    setCity(event.target.value)
+  }
+  const handleDepartment = (event) => {
+    setDepartment(event.target.value)
+  }
+  
   const handleSubmit = (event) => {
     event.preventDefault();
+    const newEmployee = {
+      firstName,
+      lastName,
+      state,
+      dateBirth,
+      dateStart,
+      city,
+      zipCode,
+      department,
+    }
+    setEmployees([...employees, newEmployee])
+    
+    setFirstName('')
+    setLastName('')
+    setState('')
+    setDateBirth('')
+    setDateStart('')
+    setAdress('')
+    setCity('')
+    setZipCode('')
+    setDepartment('')
   }
 
   const [selectedState, setSelectedState] = useState('');
@@ -114,7 +133,9 @@ function App() {
   ))
 
   const handleChange = (event) => {
-    setSelectedState(event.target.value)
+    const selectValue = event.target.value
+    setSelectedState(selectValue)
+    handleState(selectValue)
   }
 
   return (
@@ -141,22 +162,22 @@ function App() {
 
             <form onSubmit={handleSubmit} id='form'>
               <InputLabel  className='inputLabel'>First Name</InputLabel>
-              <TextField variant='outlined' label='First Name' required fullWidth />
+              <TextField variant='outlined' label='First Name' required fullWidth value={firstName} onChange={handleFirstName} />
 
               <InputLabel className='inputLabel'>Last Name</InputLabel>
-              <TextField variant='outlined' label='Last Name' required />
+              <TextField variant='outlined' label='Last Name' required value={lastName} onChange={handleLastName} />
 
               <InputLabel className='inputLabel'>Date of Birth</InputLabel>
-              <TextField type='date' name='date-birth' required id='date-birth' variant='outlined' />
+              <TextField type='date' name='date-birth' required id='date-birth' variant='outlined' value={dateBirth} onChange={handleDateBirth} />
 
               <InputLabel className='inputLabel'>Start Date</InputLabel>
-              <TextField type='date' variant='outlined' required id='date-start' name='date-start' />
+              <TextField type='date' variant='outlined' required id='date-start' name='date-start' value={dateStart} onChange={handleDateStart} />
 
               <InputLabel className='inputLabel'>Adress</InputLabel>
-              <TextField variant='outlined' label='Adress' required name='adress' id='adress' />
+              <TextField variant='outlined' label='Adress' required name='adress' id='adress' value={adress} onChange={handleAdress} />
 
               <InputLabel className='inputLabel'>City</InputLabel>
-              <TextField variant='outlined' label='City' required id='firstname' />
+              <TextField variant='outlined' label='City' required id='firstname' value={city} onChange={handleCity} />
 
               <div className='form__state--div'>
                 <div>
@@ -168,12 +189,12 @@ function App() {
 
                 <div>
                   <InputLabel className='inputLabel'>Zip Code</InputLabel>
-                  <TextField type='number' required variant='outlined' id='zip-code' />
+                  <TextField type='number' required variant='outlined' id='zip-code' value={zipCode} onChange={handleZipCode} />
                 </div>
               </div>
 
               <InputLabel className='inputLabel'>Department</InputLabel>
-              <TextField variant='outlined' label='Department' id='department' required />
+              <TextField variant='outlined' label='Department' id='department' required value={department} onChange={handleDepartment} />
 
               <Button type='submit' variant='contained' sx={{ mt: 1, mb: 2, bgcolor: '#000' }}>Save</Button>
             </form>
