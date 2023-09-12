@@ -9,6 +9,7 @@ const EmployeeList = ({ employees }) => {
                 <Typography
                     sx={{
                         mt: 5,
+                        mb: 5,
                         fontWeight: "bold",
                         textAlign: "left",
                         maxWidth: "560px",

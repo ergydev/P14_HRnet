@@ -10,7 +10,6 @@ function App() {
   const [employees, setEmployees] = useState([])
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [state, setState] = useState('');
   const [dateBirth, setDateBirth] = useState('');
   const [dateStart, setDateStart] = useState('');
   const [adress, setAdress] = useState('');
@@ -23,9 +22,6 @@ function App() {
   }
   const handleLastName = (event) => {
     setLastName(event.target.value)
-  }
-  const handleState = (event) => {
-    setState(event.target.value)
   }
   const handleDateBirth = (event) => {
     setDateBirth(event.target.value)
@@ -52,18 +48,20 @@ function App() {
     const newEmployee = {
       firstName,
       lastName,
-      state,
+      state: selectedState,
       dateBirth,
       dateStart,
       city,
       zipCode,
       department,
     }
+
+    console.log(newEmployee)
     setEmployees([...employees, newEmployee])
     
     setFirstName('')
     setLastName('')
-    setState('')
+    setSelectedState('')
     setDateBirth('')
     setDateStart('')
     setAdress('')
@@ -133,9 +131,7 @@ function App() {
   ))
 
   const handleChange = (event) => {
-    const selectValue = event.target.value
-    setSelectedState(selectValue)
-    handleState(selectValue)
+    setSelectedState(event.target.value)
   }
 
   return (
