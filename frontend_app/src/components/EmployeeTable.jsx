@@ -1,7 +1,14 @@
 import { Table, TableBody, TableCell, TableHead, TableRow, TableContainer, Paper, TablePagination, TextField } from '@mui/material/';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
 
-function EmployeeTable({ employees }) {
+import { get } from '../utils/employeeSlice';
+
+
+function EmployeeTable() {
+    const dispatch = useDispatch()
+    const firstName = useSelector(state => state.firstName)
+    console.log(dispatch(get()))
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [searchTerm, setSearchTerm] = useState('')
@@ -15,29 +22,29 @@ function EmployeeTable({ employees }) {
         setPage(0)
     }
 
-    const filteredEmployees = employees.filter((employee) => 
-        employee.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        employee.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        employee.dateStart.includes(searchTerm) ||
-        employee.department.toLowerCase().includes(searchTerm) ||
-        employee.dateBirtrh.includes(searchTerm) ||
-        employee.adress.toLowerCase().includes(searchTerm) ||
-        employee.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        employee.state.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        employee.zipCode.includes(searchTerm) 
-    )
+    // const filteredEmployees = employees.filter((employee) => 
+    //     employee.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    //     employee.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    //     employee.dateStart.includes(searchTerm) ||
+    //     employee.department.toLowerCase().includes(searchTerm) ||
+    //     employee.dateBirtrh.includes(searchTerm) ||
+    //     employee.adress.toLowerCase().includes(searchTerm) ||
+    //     employee.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    //     employee.state.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    //     employee.zipCode.includes(searchTerm) 
+    // )
 
     const startIndex = page * rowsPerPage
     const endIndex = startIndex + rowsPerPage
 
     return (
         <div>
-            <TextField 
+            <TextField
                 label='Search employees'
-                variant='outlined'                
+                variant='outlined'
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                sx={{ marginBottom: 2 , height: 1 }}
+                sx={{ marginBottom: 2, height: 1 }}
             />
             <TableContainer component={Paper}>
                 <Table>
@@ -55,7 +62,7 @@ function EmployeeTable({ employees }) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {employees?.map((employee, index) => (
+                        {/* {employees?.map((employee, index) => (
                             <TableRow key={index}>
                                 <TableCell>{employee.firstName}</TableCell>
                                 <TableCell>{employee.lastName}</TableCell>
@@ -67,13 +74,14 @@ function EmployeeTable({ employees }) {
                                 <TableCell>{employee.state}</TableCell>
                                 <TableCell>{employee.zipCode}</TableCell>
                             </TableRow>
-                        ))}
+                        ))} */}
                     </TableBody>
                 </Table>
             </TableContainer>
-            <TablePagination 
+            <TablePagination
                 component="div"
-                count={employees.length}
+                // count={employees.length}
+                count={0}
                 page={page}
                 onPageChange={handleChangePage}
                 rowsPerPage={rowsPerPage}

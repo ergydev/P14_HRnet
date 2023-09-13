@@ -1,7 +1,7 @@
 import {  Container, Typography } from '@mui/material/';
 import EmployeeTable from '../../components/EmployeeTable';
 
-const EmployeeList = ({ employees }) => {
+const EmployeeList = () => {
 
     return (
         <Container>
@@ -22,7 +22,7 @@ const EmployeeList = ({ employees }) => {
                 </Typography>
             </div>
 
-            <EmployeeTable employees={employees} />
+            <EmployeeTable />
         </Container >
     );
 }

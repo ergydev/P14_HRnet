@@ -1,14 +1,19 @@
 import { Container, Typography, TextField, Select, MenuItem, InputLabel, Button } from '@mui/material'
 import React, { useState } from 'react';
+import {useDispatch, useSelector} from 'react-redux'
 
 
 import './App.css';
 import Team from '../../assets/team_meeting.jpg'
+import { set } from '../../utils/employeeSlice';
 
 function App() {
 
+  const dispatch = useDispatch()
+  const  firstName  = useSelector(state => state.firstName)
+
   const [employees, setEmployees] = useState([])
-  const [firstName, setFirstName] = useState('Oscar');
+  const [employeeName, setEmployeeName] = useState('Oscar');
   const [lastName, setLastName] = useState('Delavega');
   const [dateBirth, setDateBirth] = useState('20/10/1983');
   const [dateStart, setDateStart] = useState('22/01/2000');
@@ -17,8 +22,10 @@ function App() {
   const [department, setDepartment] = useState('Sales');
   const [zipCode, setZipCode] = useState('35000');
 
-  const handleFirstName = (event) => {
-    setFirstName(event.target.value)
+ 
+
+  const handleemployeeName = (event) => {
+    setEmployeeName(event.target.value)
   }
   const handleLastName = (event) => {
     setLastName(event.target.value)
@@ -46,7 +53,7 @@ function App() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const newEmployee = {
-      firstName,
+      employeeName,
       lastName,
       state: selectedState,
       dateBirth,
@@ -56,10 +63,12 @@ function App() {
       department,
     }
 
+    dispatch(set(employeeName))
+
     console.log(newEmployee)
     setEmployees([...employees, newEmployee])
     
-    setFirstName('')
+    setEmployeeName('')
     setLastName('')
     setSelectedState('')
     setDateBirth('')
@@ -158,7 +167,7 @@ function App() {
 
             <form onSubmit={handleSubmit} id='form'>
               <InputLabel  className='inputLabel'>First Name</InputLabel>
-              <TextField variant='outlined' label='First Name' required fullWidth value={firstName} onChange={handleFirstName} />
+              <TextField variant='outlined' label='First Name' required fullWidth value={employeeName} onChange={handleemployeeName} />
 
               <InputLabel className='inputLabel'>Last Name</InputLabel>
               <TextField variant='outlined' label='Last Name' required value={lastName} onChange={handleLastName} />
@@ -173,7 +182,7 @@ function App() {
               <TextField variant='outlined' label='Adress' required name='adress' id='adress' value={adress} onChange={handleAdress} />
 
               <InputLabel className='inputLabel'>City</InputLabel>
-              <TextField variant='outlined' label='City' required id='firstname' value={city} onChange={handleCity} />
+              <TextField variant='outlined' label='City' required id='employeeName' value={city} onChange={handleCity} />
 
               <div className='form__state--div'>
                 <div>
