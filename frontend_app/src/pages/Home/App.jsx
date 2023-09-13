@@ -8,14 +8,14 @@ import Team from '../../assets/team_meeting.jpg'
 function App() {
 
   const [employees, setEmployees] = useState([])
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [dateBirth, setDateBirth] = useState('');
-  const [dateStart, setDateStart] = useState('');
-  const [adress, setAdress] = useState('');
-  const [city, setCity] = useState('');
-  const [department, setDepartment] = useState('');
-  const [zipCode, setZipCode] = useState('');
+  const [firstName, setFirstName] = useState('Oscar');
+  const [lastName, setLastName] = useState('Delavega');
+  const [dateBirth, setDateBirth] = useState('20/10/1983');
+  const [dateStart, setDateStart] = useState('22/01/2000');
+  const [adress, setAdress] = useState('35 street Road');
+  const [city, setCity] = useState('Atlanta');
+  const [department, setDepartment] = useState('Sales');
+  const [zipCode, setZipCode] = useState('35000');
 
   const handleFirstName = (event) => {
     setFirstName(event.target.value)
