@@ -1,48 +1,32 @@
 import { Container, Typography, TextField, Select, MenuItem, InputLabel, Button } from '@mui/material'
 import React, { useState } from 'react';
+import { connect, useDispatch } from 'react-redux'
+
+
 
 
 import './App.css';
 import Team from '../../assets/team_meeting.jpg'
+import { updateFormField } from '../../services/hooks/formulaireActions'
 
-function App() {
+function App(props) {
 
-  const [employees, setEmployees] = useState([])
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [dateBirth, setDateBirth] = useState('');
-  const [dateStart, setDateStart] = useState('');
-  const [adress, setAdress] = useState('');
-  const [city, setCity] = useState('');
-  const [department, setDepartment] = useState('');
-  const [zipCode, setZipCode] = useState('');
 
-  const handleFirstName = (event) => {
-    setFirstName(event.target.value)
-  }
-  const handleLastName = (event) => {
-    setLastName(event.target.value)
-  }
-  const handleDateBirth = (event) => {
-    setDateBirth(event.target.value)
-  }
-  const handleZipCode = (event) => {
-    const value = event.target.value.replace(/\D/g, '')
-    setZipCode(value)
-  }
-  const handleDateStart = (event) => {
-    setDateStart(event.target.value)
-  }
-  const handleAdress = (event) => {
-    setAdress(event.target.value)
-  }
-  const handleCity = (event) => {
-    setCity(event.target.value)
-  }
-  const handleDepartment = (event) => {
-    setDepartment(event.target.value)
-  }
-  
+  const {
+    firstName,
+    lastName,
+    dateBirth,
+    dateStart,
+    adress,
+    city,
+    department,
+    zipCode,
+    selectedState,
+    dispatch,
+  } = props
+
+
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const newEmployee = {
@@ -57,20 +41,18 @@ function App() {
     }
 
     console.log(newEmployee)
-    setEmployees([...employees, newEmployee])
-    
-    setFirstName('')
-    setLastName('')
-    setSelectedState('')
-    setDateBirth('')
-    setDateStart('')
-    setAdress('')
-    setCity('')
-    setZipCode('')
-    setDepartment('')
+
+    dispatch(updateFormField('firstName', ''))
+    dispatch(updateFormField('lastName', ''))
+    dispatch(updateFormField('selectedState', ''))
+    dispatch(updateFormField('dateBirth', ''))
+    dispatch(updateFormField('dateStart', ''))
+    dispatch(updateFormField('city', ''))
+    dispatch(updateFormField('zipCode', ''))
+    dispatch(updateFormField('department', ''))
   }
 
-  const [selectedState, setSelectedState] = useState('');
+
   const usStates = [
     'Alabama',
     'Alaska',
@@ -131,8 +113,9 @@ function App() {
   ))
 
   const handleChange = (event) => {
-    setSelectedState(event.target.value)
+    // setSelectedState(event.target.value)
   }
+
 
   return (
     <div className="App">
@@ -157,23 +140,23 @@ function App() {
             <Typography className='form__title' variant='h5' sx={{ mt: 5, fontWeight: "bold", }} >Create Employee</Typography>
 
             <form onSubmit={handleSubmit} id='form'>
-              <InputLabel  className='inputLabel'>First Name</InputLabel>
-              <TextField variant='outlined' label='First Name' required fullWidth value={firstName} onChange={handleFirstName} />
+              <InputLabel className='inputLabel'>First Name</InputLabel>
+              <TextField variant='outlined' label='First Name' required fullWidth value={firstName} />
 
               <InputLabel className='inputLabel'>Last Name</InputLabel>
-              <TextField variant='outlined' label='Last Name' required value={lastName} onChange={handleLastName} />
+              <TextField variant='outlined' label='Last Name' required value={lastName} />
 
               <InputLabel className='inputLabel'>Date of Birth</InputLabel>
-              <TextField type='date' name='date-birth' required id='date-birth' variant='outlined' value={dateBirth} onChange={handleDateBirth} />
+              <TextField type='date' name='date-birth' required id='date-birth' variant='outlined' value={dateBirth} />
 
               <InputLabel className='inputLabel'>Start Date</InputLabel>
-              <TextField type='date' variant='outlined' required id='date-start' name='date-start' value={dateStart} onChange={handleDateStart} />
+              <TextField type='date' variant='outlined' required id='date-start' name='date-start' value={dateStart} />
 
               <InputLabel className='inputLabel'>Adress</InputLabel>
-              <TextField variant='outlined' label='Adress' required name='adress' id='adress' value={adress} onChange={handleAdress} />
+              <TextField variant='outlined' label='Adress' required name='adress' id='adress' value={adress} />
 
               <InputLabel className='inputLabel'>City</InputLabel>
-              <TextField variant='outlined' label='City' required id='firstname' value={city} onChange={handleCity} />
+              <TextField variant='outlined' label='City' required id='firstname' value={city} />
 
               <div className='form__state--div'>
                 <div>
@@ -185,12 +168,12 @@ function App() {
 
                 <div>
                   <InputLabel className='inputLabel'>Zip Code</InputLabel>
-                  <TextField type='number' required variant='outlined' id='zip-code' value={zipCode} onChange={handleZipCode} />
+                  <TextField type='number' required variant='outlined' id='zip-code' value={zipCode} />
                 </div>
               </div>
 
               <InputLabel className='inputLabel'>Department</InputLabel>
-              <TextField variant='outlined' label='Department' id='department' required value={department} onChange={handleDepartment} />
+              <TextField variant='outlined' label='Department' id='department' required value={department} />
 
               <Button type='submit' variant='contained' sx={{ mt: 1, mb: 2, bgcolor: '#000' }}>Save</Button>
             </form>
@@ -200,6 +183,20 @@ function App() {
       </Container>
     </div>
   );
+
+
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  firstName: state.firstName,
+  lastName: state.lastName,
+  state: state.state,
+  dateBirth: state.dateBirth,
+  dateStart: state.dateStart,
+  city: state.city,
+  zipCode: state.zipCode,
+  department: state.department,
+})
+
+
+export default connect(mapStateToProps)(App);
