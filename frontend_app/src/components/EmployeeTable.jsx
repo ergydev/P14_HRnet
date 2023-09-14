@@ -62,19 +62,9 @@ function EmployeeTable() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {/* {employees?.map((employee, index) => (
-                            <TableRow key={index}>
-                                <TableCell>{employee.firstName}</TableCell>
-                                <TableCell>{employee.lastName}</TableCell>
-                                <TableCell>{employee.dateStart}</TableCell>
-                                <TableCell>{employee.department}</TableCell>
-                                <TableCell>{employee.dateBirth}</TableCell>
-                                <TableCell>{employee.adress}</TableCell>
-                                <TableCell>{employee.city}</TableCell>
-                                <TableCell>{employee.state}</TableCell>
-                                <TableCell>{employee.zipCode}</TableCell>
-                            </TableRow>
-                        ))} */}
+                        <TableRow>
+                            <TableCell>{firstName}</TableCell>
+                        </TableRow>
                     </TableBody>
                 </Table>
             </TableContainer>
