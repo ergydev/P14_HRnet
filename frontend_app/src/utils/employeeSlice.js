@@ -1,25 +1,28 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const slice = createSlice({
-    name: 'firstName',
-    initialState: {
-        firstName: '',
-    },
+const saveEmployeeData = (fieldName, value) => {
+    localStorage.setItem(fieldName, value)
+}
 
+const initialState = {
+    firstName: localStorage.getItem('firstName') || '', 
+}
+
+const slice = createSlice({
+    name: 'employeeSlice',
+    initialState,
     reducers: {
         setFirstName: (state, action) => {
             state.firstName = action.payload
+            saveEmployeeData('firstName', action.payload)
         },
-        getFirstName: (state, action) => {
-            return state.firstName
-        }
     },
 }
 );
 
-export default slice.reducer
 
-const { setFirstName, getFirstName } = slice.actions
+export const { setFirstName } = slice.actions
+
 export const set = (firstName) => async dispatch => {
     try {
 
@@ -29,10 +32,5 @@ export const set = (firstName) => async dispatch => {
     }
 }
 
-export const get = () => async dispatch => {
-    try {
-      return dispatch(getFirstName())
-    } catch (e) {
-      return console.error(e.message);
-    }
-  }
+
+export default slice.reducer

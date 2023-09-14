@@ -2,13 +2,13 @@ import { Table, TableBody, TableCell, TableHead, TableRow, TableContainer, Paper
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 
-import { get } from '../utils/employeeSlice';
+
 
 
 function EmployeeTable() {
     const dispatch = useDispatch()
     const firstName = useSelector(state => state.firstName)
-    console.log(dispatch(get()))
+    console.log(firstName)
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [searchTerm, setSearchTerm] = useState('')

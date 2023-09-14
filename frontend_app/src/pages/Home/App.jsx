@@ -5,18 +5,18 @@ import {useDispatch, useSelector} from 'react-redux'
 
 import './App.css';
 import Team from '../../assets/team_meeting.jpg'
-import { set } from '../../utils/employeeSlice';
+import { set, setFirstName } from '../../utils/employeeSlice';
 
 function App() {
 
   const dispatch = useDispatch()
-  const  firstName  = useSelector(state => state.firstName)
+  const  firstName  = useSelector(state => state.employeeSlice.firstName)
 
   const [employees, setEmployees] = useState([])
-  const [employeeName, setEmployeeName] = useState('Oscar');
+  // const [employeeName, setEmployeeName] = useState('Oscar');
   const [lastName, setLastName] = useState('Delavega');
-  const [dateBirth, setDateBirth] = useState('20/10/1983');
-  const [dateStart, setDateStart] = useState('22/01/2000');
+  const [dateBirth, setDateBirth] = useState('1983/10/12');
+  const [dateStart, setDateStart] = useState('2020/01/12');
   const [adress, setAdress] = useState('35 street Road');
   const [city, setCity] = useState('Atlanta');
   const [department, setDepartment] = useState('Sales');
@@ -24,8 +24,11 @@ function App() {
 
  
 
-  const handleemployeeName = (event) => {
-    setEmployeeName(event.target.value)
+  // const handleemployeeName = (event) => {
+  //   setEmployeeName(event.target.value)
+  // }
+  const handleFirstName = (event) => {
+    setFirstName(event.target.value)
   }
   const handleLastName = (event) => {
     setLastName(event.target.value)
@@ -53,7 +56,8 @@ function App() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const newEmployee = {
-      employeeName,
+      // employeeName,
+      firstName,
       lastName,
       state: selectedState,
       dateBirth,
@@ -63,12 +67,14 @@ function App() {
       department,
     }
 
-    dispatch(set(employeeName))
+    dispatch(set(firstName))
 
+    console.log(firstName)
     console.log(newEmployee)
     setEmployees([...employees, newEmployee])
     
-    setEmployeeName('')
+    // setEmployeeName('')
+    setFirstName('')
     setLastName('')
     setSelectedState('')
     setDateBirth('')
@@ -167,7 +173,7 @@ function App() {
 
             <form onSubmit={handleSubmit} id='form'>
               <InputLabel  className='inputLabel'>First Name</InputLabel>
-              <TextField variant='outlined' label='First Name' required fullWidth value={employeeName} onChange={handleemployeeName} />
+              <TextField variant='outlined' label='First Name' required fullWidth value={firstName} onChange={handleFirstName} />
 
               <InputLabel className='inputLabel'>Last Name</InputLabel>
               <TextField variant='outlined' label='Last Name' required value={lastName} onChange={handleLastName} />
