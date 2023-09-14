@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 function EmployeeTable() {
     const dispatch = useDispatch()
-    const firstName = useSelector(state => state.firstName)
+    const firstName = useSelector(state => state.employeeSlice.firstName)
     console.log(firstName)
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(5);
