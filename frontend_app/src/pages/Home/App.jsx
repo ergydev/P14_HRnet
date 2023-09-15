@@ -1,5 +1,5 @@
 import { Container, Typography, TextField, Select, MenuItem, InputLabel, Button } from '@mui/material'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 
 import './App.css';
@@ -8,66 +8,47 @@ import Team from '../../assets/team_meeting.jpg'
 function App() {
 
   const [employees, setEmployees] = useState([])
-  const [firstName, setFirstName] = useState('Oscar');
-  const [lastName, setLastName] = useState('Delavega');
-  const [dateBirth, setDateBirth] = useState('20/10/1983');
-  const [dateStart, setDateStart] = useState('22/01/2000');
-  const [adress, setAdress] = useState('35 street Road');
-  const [city, setCity] = useState('Atlanta');
-  const [department, setDepartment] = useState('Sales');
-  const [zipCode, setZipCode] = useState('35000');
+  const [formData, setFormData] = useState({
+    firstName: 'Oscar',
+    lastName: 'Delavega',
+    dateBirth: '',
+    dateStart: '',
+    adress: '35 street Roa',
+    city: 'Atlanta',
+    department: 'Sales',
+    zipCode: '35000',
+  })
 
-  const handleFirstName = (event) => {
-    setFirstName(event.target.value)
+  const updateLocalStorage = () => {
+    localStorage.setItem('formData', JSON.stringify(formData))
   }
-  const handleLastName = (event) => {
-    setLastName(event.target.value)
-  }
-  const handleDateBirth = (event) => {
-    setDateBirth(event.target.value)
-  }
-  const handleZipCode = (event) => {
-    const value = event.target.value.replace(/\D/g, '')
-    setZipCode(value)
-  }
-  const handleDateStart = (event) => {
-    setDateStart(event.target.value)
-  }
-  const handleAdress = (event) => {
-    setAdress(event.target.value)
-  }
-  const handleCity = (event) => {
-    setCity(event.target.value)
-  }
-  const handleDepartment = (event) => {
-    setDepartment(event.target.value)
-  }
-  
+
+  useEffect(() => {
+    const storedData = localStorage.getItem('formData')
+    if (storedData) {
+      setFormData(JSON.parse(storedData))
+    }
+  }, []);
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const newEmployee = {
-      firstName,
-      lastName,
-      state: selectedState,
-      dateBirth,
-      dateStart,
-      city,
-      zipCode,
-      department,
-    }
+    const newEmployee = {...formData}
+    setEmployees([...employees, newEmployee])
 
     console.log(newEmployee)
-    setEmployees([...employees, newEmployee])
-    
-    setFirstName('')
-    setLastName('')
-    setSelectedState('')
-    setDateBirth('')
-    setDateStart('')
-    setAdress('')
-    setCity('')
-    setZipCode('')
-    setDepartment('')
+
+    setFormData({
+      firstName: '',
+      lastName: '',
+      dateBirth: '',
+      dateStart: '',
+      adress: '',
+      city: '',
+      department: '',
+      zipCode: '',
+    })
+
+    updateLocalStorage()
   }
 
   const [selectedState, setSelectedState] = useState('');
@@ -134,6 +115,18 @@ function App() {
     setSelectedState(event.target.value)
   }
 
+  const handleInputChange = (event) => {
+    const {name, value} = event.target
+    setFormData({
+      ...formData,
+      [name]: value,
+    })
+  }
+
+  useEffect(() => {
+    updateLocalStorage()
+  }, [formData]);
+
   return (
     <div className="App">
       <Container>
@@ -157,40 +150,40 @@ function App() {
             <Typography className='form__title' variant='h5' sx={{ mt: 5, fontWeight: "bold", }} >Create Employee</Typography>
 
             <form onSubmit={handleSubmit} id='form'>
-              <InputLabel  className='inputLabel'>First Name</InputLabel>
-              <TextField variant='outlined' label='First Name' required fullWidth value={firstName} onChange={handleFirstName} />
+              <InputLabel className='inputLabel'>First Name</InputLabel>
+              <TextField variant='outlined' label='First Name' name='firstName' required fullWidth value={formData.firstName} onChange={handleInputChange} />
 
               <InputLabel className='inputLabel'>Last Name</InputLabel>
-              <TextField variant='outlined' label='Last Name' required value={lastName} onChange={handleLastName} />
+              <TextField variant='outlined' label='Last Name' name='lastName' required value={formData.lastName} onChange={handleInputChange} />
 
               <InputLabel className='inputLabel'>Date of Birth</InputLabel>
-              <TextField type='date' name='date-birth' required id='date-birth' variant='outlined' value={dateBirth} onChange={handleDateBirth} />
+              <TextField type='date' name='dateBirth' required id='dateBirth' variant='outlined' value={formData.dateBirth} onChange={handleInputChange} />
 
               <InputLabel className='inputLabel'>Start Date</InputLabel>
-              <TextField type='date' variant='outlined' required id='date-start' name='date-start' value={dateStart} onChange={handleDateStart} />
+              <TextField type='date' variant='outlined' required id='dateStart' name='dateStart' value={formData.dateStart} onChange={handleInputChange} />
 
               <InputLabel className='inputLabel'>Adress</InputLabel>
-              <TextField variant='outlined' label='Adress' required name='adress' id='adress' value={adress} onChange={handleAdress} />
+              <TextField variant='outlined' label='Adress' required name='adress' id='adress' value={formData.adress} onChange={handleInputChange} />
 
               <InputLabel className='inputLabel'>City</InputLabel>
-              <TextField variant='outlined' label='City' required id='firstname' value={city} onChange={handleCity} />
+              <TextField variant='outlined' label='City' name='city' required id='city' value={formData.city} onChange={handleInputChange} />
 
               <div className='form__state--div'>
                 <div>
                   <InputLabel className='inputLabel'>State</InputLabel>
-                  <Select id='state' value={selectedState} required onChange={handleChange}>
+                  <Select id='state' value={selectedState} name='state' required onChange={handleChange}>
                     {stateOptions}
                   </Select>
                 </div>
 
                 <div>
                   <InputLabel className='inputLabel'>Zip Code</InputLabel>
-                  <TextField type='number' required variant='outlined' id='zip-code' value={zipCode} onChange={handleZipCode} />
+                  <TextField type='number' required variant='outlined' name='zipCode' id='zipCode' value={formData.zipCode} onChange={handleInputChange} />
                 </div>
               </div>
 
               <InputLabel className='inputLabel'>Department</InputLabel>
-              <TextField variant='outlined' label='Department' id='department' required value={department} onChange={handleDepartment} />
+              <TextField variant='outlined' label='Department' id='department' name='department' required value={formData.department} onChange={handleInputChange} />
 
               <Button type='submit' variant='contained' sx={{ mt: 1, mb: 2, bgcolor: '#000' }}>Save</Button>
             </form>
