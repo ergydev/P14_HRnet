@@ -9,14 +9,15 @@ function App() {
 
   const [employees, setEmployees] = useState([])
   const [formData, setFormData] = useState({
-    firstName: 'Oscar',
-    lastName: 'Delavega',
+    firstName: '',
+    lastName: '',
     dateBirth: '',
     dateStart: '',
-    adress: '35 street Roa',
-    city: 'Atlanta',
-    department: 'Sales',
-    zipCode: '35000',
+    adress: '',
+    city: '',
+    department: '',
+    zipCode: '',
+    state: '',
   })
 
   const updateLocalStorage = (submitted) => {
@@ -26,11 +27,22 @@ function App() {
   }
 
   useEffect(() => {
-    const storedData = localStorage.getItem('formData')
-    if (storedData) {
-      setFormData(JSON.parse(storedData))
+    try {
+      const storedData = localStorage.getItem('formData')
+      if (storedData) {
+        setFormData(JSON.parse(storedData))
+      }
+
+      const storedEmployees = localStorage.getItem('employees')
+      if (storedData) {
+        setFormData(JSON.parse(storedEmployees))
+      }
+    } catch (error) {
+      console.error('Erreur lors de la récupération des données depuis le localStorage :', error);
     }
+
   }, []);
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -38,8 +50,6 @@ function App() {
     setEmployees([...employees, newEmployee])
 
     console.log(newEmployee)
-
-    updateLocalStorage(true)
 
     setFormData({
       firstName: '',
@@ -50,7 +60,10 @@ function App() {
       city: '',
       department: '',
       zipCode: '',
+      state: selectedState,
     })
+    updateLocalStorage(true)
+    localStorage.setItem('employees', JSON.stringify([...employees, newEmployee]))
   }
 
   const [selectedState, setSelectedState] = useState('');
@@ -128,6 +141,7 @@ function App() {
   useEffect(() => {
     updateLocalStorage()
   }, [formData]);
+
 
   return (
     <div className="App">
