@@ -19,8 +19,10 @@ function App() {
     zipCode: '35000',
   })
 
-  const updateLocalStorage = () => {
-    localStorage.setItem('formData', JSON.stringify(formData))
+  const updateLocalStorage = (submitted) => {
+    if (submitted) {
+      localStorage.setItem('formData', JSON.stringify(formData))
+    }
   }
 
   useEffect(() => {
@@ -32,10 +34,12 @@ function App() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const newEmployee = {...formData}
+    const newEmployee = { ...formData }
     setEmployees([...employees, newEmployee])
 
     console.log(newEmployee)
+
+    updateLocalStorage(true)
 
     setFormData({
       firstName: '',
@@ -47,8 +51,6 @@ function App() {
       department: '',
       zipCode: '',
     })
-
-    updateLocalStorage()
   }
 
   const [selectedState, setSelectedState] = useState('');
@@ -116,7 +118,7 @@ function App() {
   }
 
   const handleInputChange = (event) => {
-    const {name, value} = event.target
+    const { name, value } = event.target
     setFormData({
       ...formData,
       [name]: value,
