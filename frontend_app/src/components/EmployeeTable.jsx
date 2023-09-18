@@ -28,7 +28,7 @@ function EmployeeTable({ employees }) {
         const dateStart = employee.dateStart || '';
         const department = (employee.department || '').toLowerCase();
         const dateBirth = employee.dateBirth || '';
-        const address = (employee.address || '').toLowerCase();
+        const address = (employee.street || '').toLowerCase();
         const city = (employee.city || '').toLowerCase();
         const state = (employee.state || '').toLowerCase();
         const zipCode = (employee.zipCode || '');
@@ -83,9 +83,9 @@ function EmployeeTable({ employees }) {
     };
     const sortByAddress = (a, b) => {
         if (sortOrder === 'asc') {
-            return a.address.localeCompare(b.address);
+            return a.street.localeCompare(b.street);
         } else {
-            return b.address.localeCompare(a.address);
+            return b.street.localeCompare(a.street);
         }
     };
     const sortByCity = (a, b) => {
@@ -136,7 +136,7 @@ function EmployeeTable({ employees }) {
                 return sortByDateBirth(a, b);
             case 'department':
                 return sortByDepartment(a, b);
-            case 'address':
+            case 'street':
                 return sortByAddress(a, b);
             case 'city':
                 return sortByCity(a, b);
