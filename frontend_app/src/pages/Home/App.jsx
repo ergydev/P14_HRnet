@@ -55,12 +55,23 @@ function App() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    const existingEmployees = employees || [];
+
     const newEmployee = {
-      ...formData,
-      state: selectedState,
-    }
-    const updateEmployees = [...employees, newEmployee]
-    setEmployees(updateEmployees)
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      dateBirth: formData.dateBirth,
+      startDate: formData.dateStart,
+      department: formData.department,
+      street: formData.adress,
+      city: formData.city,
+      state: formData.state,
+      zipCode: formData.zipCode,
+    };
+
+    const updatedEmployees = [...existingEmployees, newEmployee];
+    setEmployees(updatedEmployees);
 
     setFormData({
       firstName: '',
@@ -74,7 +85,8 @@ function App() {
       state: '',
     })
     // updateEmployeeStorage(updateEmployees)
-    localStorage.setItem('employees', JSON.stringify(updateEmployees))
+    localStorage.setItem('employees', JSON.stringify(updatedEmployees));
+
   }
 
   const [selectedState, setSelectedState] = useState('');
