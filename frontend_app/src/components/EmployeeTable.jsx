@@ -15,17 +15,29 @@ function EmployeeTable({ employees }) {
         setPage(0)
     }
 
-    const filteredEmployees = employees.filter((employee) => 
-        employee.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        employee.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        employee.dateStart.includes(searchTerm) ||
-        employee.department.toLowerCase().includes(searchTerm) ||
-        employee.dateBirth.includes(searchTerm) ||
-        employee.adress.toLowerCase().includes(searchTerm) ||
-        employee.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        employee.state.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        employee.zipCode.includes(searchTerm) 
-    )
+    const filteredEmployees = employees.filter((employee) => {
+        const firstName = (employee.firstName || '').toLowerCase();
+        const lastName = (employee.lastName || '').toLowerCase();
+        const dateStart = employee.dateStart || '';
+        const department = (employee.department || '').toLowerCase();
+        const dateBirth = employee.dateBirth || '';
+        const address = (employee.address || '').toLowerCase();
+        const city = (employee.city || '').toLowerCase();
+        const state = (employee.state || '').toLowerCase();
+        const zipCode = (employee.zipCode || '');
+
+        return (
+            firstName.includes(searchTerm.toLowerCase()) ||
+            lastName.includes(searchTerm.toLowerCase()) ||
+            dateStart.includes(searchTerm) ||
+            department.includes(searchTerm.toLowerCase()) ||
+            dateBirth.includes(searchTerm) ||
+            address.includes(searchTerm.toLowerCase()) ||
+            city.includes(searchTerm.toLowerCase()) ||
+            state.includes(searchTerm.toLowerCase()) ||
+            zipCode.includes(searchTerm)
+          );
+    })
 
     const startIndex = page * rowsPerPage
     const endIndex = startIndex + rowsPerPage
@@ -63,7 +75,7 @@ function EmployeeTable({ employees }) {
                                     <TableCell>{employee.dateStart || '' }</TableCell>
                                     <TableCell>{employee.department || '' }</TableCell>
                                     <TableCell>{employee.dateBirth || '' }</TableCell>
-                                    <TableCell>{employee.adress || '' }</TableCell>
+                                    <TableCell>{employee.address || '' }</TableCell>
                                     <TableCell>{employee.city || '' }</TableCell>
                                     <TableCell>{employee.state || '' }</TableCell>
                                     <TableCell>{employee.zipCode || '' }</TableCell>

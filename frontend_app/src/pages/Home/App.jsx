@@ -13,7 +13,7 @@ function App() {
     lastName: '',
     dateBirth: '',
     dateStart: '',
-    adress: '',
+    address: '',
     city: '',
     department: '',
     zipCode: '',
@@ -110,7 +110,7 @@ function App() {
       dateBirth: formData.dateBirth,
       dateStart: formData.dateStart,
       department: formData.department,
-      adress: formData.adress,
+      address: formData.address,
       city: formData.city,
       state: formData.state,
       zipCode: formData.zipCode,
@@ -124,7 +124,7 @@ function App() {
       lastName: '',
       dateBirth: '',
       dateStart: '',
-      adress: '',
+      address: '',
       city: '',
       department: '',
       zipCode: '',
@@ -191,8 +191,8 @@ function App() {
               <InputLabel className='inputLabel'>Start Date</InputLabel>
               <TextField type='date' variant='outlined' required id='dateStart' name='dateStart' value={formData.dateStart} onChange={handleInputChange} />
 
-              <InputLabel className='inputLabel'>Adress</InputLabel>
-              <TextField variant='outlined' label='Adress' required name='adress' id='adress' value={formData.adress} onChange={handleInputChange} />
+              <InputLabel className='inputLabel'>address</InputLabel>
+              <TextField variant='outlined' label='address' required name='address' id='address' value={formData.address} onChange={handleInputChange} />
 
               <InputLabel className='inputLabel'>City</InputLabel>
               <TextField variant='outlined' label='City' name='city' required id='city' value={formData.city} onChange={handleInputChange} />
