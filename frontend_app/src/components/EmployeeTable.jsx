@@ -67,8 +67,8 @@ function EmployeeTable({ employees }) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {Array.isArray(employees) && employees.length > 0 ? (
-                            employees.map((employee, index) => (
+                        {Array.isArray(filteredEmployees) && filteredEmployees.length > 0 ? (
+                            filteredEmployees.map((employee, index) => (
                                 <TableRow key={index}>
                                     <TableCell>{employee.firstName || '' }</TableCell>
                                     <TableCell>{employee.lastName || '' }</TableCell>
