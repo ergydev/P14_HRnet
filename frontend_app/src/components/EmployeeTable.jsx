@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 function EmployeeTable({ employees }) {
     const [page, setPage] = useState(0)
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [rowsPerPage, setRowsPerPage] = useState(employees.length);
     const [searchTerm, setSearchTerm] = useState('')
 
     const handleChangePage = (event, newPage) => {
@@ -15,17 +15,17 @@ function EmployeeTable({ employees }) {
         setPage(0)
     }
 
-    // const filteredEmployees = employees.filter((employee) => 
-    //     employee.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    //     employee.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    //     employee.dateStart.includes(searchTerm) ||
-    //     employee.department.toLowerCase().includes(searchTerm) ||
-    //     employee.dateBirth.includes(searchTerm) ||
-    //     employee.adress.toLowerCase().includes(searchTerm) ||
-    //     employee.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    //     employee.state.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    //     employee.zipCode.includes(searchTerm) 
-    // )
+    const filteredEmployees = employees.filter((employee) => 
+        employee.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        employee.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        employee.dateStart.includes(searchTerm) ||
+        employee.department.toLowerCase().includes(searchTerm) ||
+        employee.dateBirth.includes(searchTerm) ||
+        employee.adress.toLowerCase().includes(searchTerm) ||
+        employee.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        employee.state.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        employee.zipCode.includes(searchTerm) 
+    )
 
     const startIndex = page * rowsPerPage
     const endIndex = startIndex + rowsPerPage

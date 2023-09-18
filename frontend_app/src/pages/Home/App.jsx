@@ -37,19 +37,30 @@ function App() {
       if (storedData) {
         setFormData(JSON.parse(storedEmployees))
       }
+
+      const storedSelectedState = localStorage.getItem('selectedState')
+      if (storedSelectedState) {
+        setSelectedState(storedSelectedState)
+      }
     } catch (error) {
       console.error('Erreur lors de la récupération des données depuis le localStorage :', error);
     }
 
   }, []);
 
+  const updateEmployeeStorage = (updateEmployees) => {
+    localStorage.setItem('employees', JSON.stringify(updateEmployees))
+  }
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const newEmployee = { ...formData }
-    setEmployees([...employees, newEmployee])
-
-    console.log(newEmployee)
+    const newEmployee = {
+      ...formData,
+      state: selectedState,
+    }
+    const updateEmployees = [...employees, newEmployee]
+    setEmployees(updateEmployees)
 
     setFormData({
       firstName: '',
@@ -60,10 +71,10 @@ function App() {
       city: '',
       department: '',
       zipCode: '',
-      state: selectedState,
+      state: '',
     })
-    updateLocalStorage(true)
-    localStorage.setItem('employees', JSON.stringify([...employees, newEmployee]))
+    // updateEmployeeStorage(updateEmployees)
+    localStorage.setItem('employees', JSON.stringify(updateEmployees))
   }
 
   const [selectedState, setSelectedState] = useState('');
@@ -127,7 +138,13 @@ function App() {
   ))
 
   const handleChange = (event) => {
-    setSelectedState(event.target.value)
+    const newState = event.target.value
+    setSelectedState(newState)
+    setFormData({
+      ...formData,
+      state: newState,
+    })
+    localStorage.setItem('state', newState)
   }
 
   const handleInputChange = (event) => {
@@ -142,6 +159,7 @@ function App() {
     updateLocalStorage()
   }, [formData]);
 
+console.log(employees)
 
   return (
     <div className="App">
