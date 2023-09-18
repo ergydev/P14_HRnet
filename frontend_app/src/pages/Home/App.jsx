@@ -20,75 +20,7 @@ function App() {
     state: '',
   })
 
-  const updateLocalStorage = (submitted) => {
-    if (submitted) {
-      localStorage.setItem('formData', JSON.stringify(formData))
-    }
-  }
-
-  useEffect(() => {
-    try {
-      const storedData = localStorage.getItem('formData')
-      if (storedData) {
-        setFormData(JSON.parse(storedData))
-      }
-
-      const storedEmployees = localStorage.getItem('employees')
-      if (storedData) {
-        setFormData(JSON.parse(storedEmployees))
-      }
-
-      const storedSelectedState = localStorage.getItem('selectedState')
-      if (storedSelectedState) {
-        setSelectedState(storedSelectedState)
-      }
-    } catch (error) {
-      console.error('Erreur lors de la récupération des données depuis le localStorage :', error);
-    }
-
-  }, []);
-
-  const updateEmployeeStorage = (updateEmployees) => {
-    localStorage.setItem('employees', JSON.stringify(updateEmployees))
-  }
-
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    const existingEmployees = employees || [];
-
-    const newEmployee = {
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      dateBirth: formData.dateBirth,
-      startDate: formData.dateStart,
-      department: formData.department,
-      street: formData.adress,
-      city: formData.city,
-      state: formData.state,
-      zipCode: formData.zipCode,
-    };
-
-    const updatedEmployees = [...existingEmployees, newEmployee];
-    setEmployees(updatedEmployees);
-
-    setFormData({
-      firstName: '',
-      lastName: '',
-      dateBirth: '',
-      dateStart: '',
-      adress: '',
-      city: '',
-      department: '',
-      zipCode: '',
-      state: '',
-    })
-    // updateEmployeeStorage(updateEmployees)
-    localStorage.setItem('employees', JSON.stringify(updatedEmployees));
-
-  }
-
+  
   const [selectedState, setSelectedState] = useState('');
   const usStates = [
     'Alabama',
@@ -167,11 +99,62 @@ function App() {
     })
   }
 
-  useEffect(() => {
-    updateLocalStorage()
-  }, [formData]);
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
-console.log(employees)
+    const existingEmployees = employees || [];
+
+    const newEmployee = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      dateBirth: formData.dateBirth,
+      dateStart: formData.dateStart,
+      department: formData.department,
+      adress: formData.adress,
+      city: formData.city,
+      state: formData.state,
+      zipCode: formData.zipCode,
+    };
+
+    const updatedEmployees = [...existingEmployees, newEmployee];
+    setEmployees(updatedEmployees);
+
+    setFormData({
+      firstName: '',
+      lastName: '',
+      dateBirth: '',
+      dateStart: '',
+      adress: '',
+      city: '',
+      department: '',
+      zipCode: '',
+      state: '',
+    })
+
+    localStorage.setItem('employees', JSON.stringify(updatedEmployees));
+  }
+
+  useEffect(() => {
+    try {
+      const storedData = localStorage.getItem('formData');
+      if (storedData) {
+        setFormData(JSON.parse(storedData));
+      }
+
+      const storedEmployees = localStorage.getItem('employees');
+      if (storedEmployees) {
+        setEmployees(JSON.parse(storedEmployees));
+      }
+
+      const storedSelectedState = localStorage.getItem('state');
+      if (storedSelectedState) {
+        setSelectedState(storedSelectedState);
+      }
+    } catch (error) {
+      console.error('Erreur lors de la récupération des données depuis le localStorage :', error);
+    }
+  }, []);
+
 
   return (
     <div className="App">
