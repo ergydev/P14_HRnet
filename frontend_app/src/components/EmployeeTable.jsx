@@ -124,7 +124,7 @@ function EmployeeTable({ employees }) {
         setSortOrder(newSortOrder);
     };
 
-    const sortedEmployees = [...employees].sort((a, b) => {
+    const sortedEmployees = [...filteredEmployees].sort((a, b) => {
         switch (sortCategory) {
             case 'lastname':
                 return sortByName(a, b);
@@ -215,7 +215,7 @@ function EmployeeTable({ employees }) {
                     </TableHead>
                     <TableBody>
                         {Array.isArray(filteredEmployees) && filteredEmployees.length > 0 ? (
-                            filteredEmployees.map((employee, index) => (
+                            sortedEmployees.map((employee, index) => (
                                 <TableRow key={index}>
                                     <TableCell>{employee.firstName || ''}</TableCell>
                                     <TableCell>{employee.lastName || ''}</TableCell>
