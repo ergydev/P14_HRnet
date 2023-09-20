@@ -1,5 +1,5 @@
 import { Container, Typography, TextField, Select, MenuItem, InputLabel, Button } from '@mui/material'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 
 import './App.css';
@@ -8,68 +8,19 @@ import Team from '../../assets/team_meeting.jpg'
 function App() {
 
   const [employees, setEmployees] = useState([])
-  const [firstName, setFirstName] = useState('Oscar');
-  const [lastName, setLastName] = useState('Delavega');
-  const [dateBirth, setDateBirth] = useState('20/10/1983');
-  const [dateStart, setDateStart] = useState('22/01/2000');
-  const [adress, setAdress] = useState('35 street Road');
-  const [city, setCity] = useState('Atlanta');
-  const [department, setDepartment] = useState('Sales');
-  const [zipCode, setZipCode] = useState('35000');
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    dateBirth: '',
+    dateStart: '',
+    address: '',
+    city: '',
+    department: '',
+    zipCode: '',
+    state: '',
+  })
 
-  const handleFirstName = (event) => {
-    setFirstName(event.target.value)
-  }
-  const handleLastName = (event) => {
-    setLastName(event.target.value)
-  }
-  const handleDateBirth = (event) => {
-    setDateBirth(event.target.value)
-  }
-  const handleZipCode = (event) => {
-    const value = event.target.value.replace(/\D/g, '')
-    setZipCode(value)
-  }
-  const handleDateStart = (event) => {
-    setDateStart(event.target.value)
-  }
-  const handleAdress = (event) => {
-    setAdress(event.target.value)
-  }
-  const handleCity = (event) => {
-    setCity(event.target.value)
-  }
-  const handleDepartment = (event) => {
-    setDepartment(event.target.value)
-  }
   
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const newEmployee = {
-      firstName,
-      lastName,
-      state: selectedState,
-      dateBirth,
-      dateStart,
-      city,
-      zipCode,
-      department,
-    }
-
-    console.log(newEmployee)
-    setEmployees([...employees, newEmployee])
-    
-    setFirstName('')
-    setLastName('')
-    setSelectedState('')
-    setDateBirth('')
-    setDateStart('')
-    setAdress('')
-    setCity('')
-    setZipCode('')
-    setDepartment('')
-  }
-
   const [selectedState, setSelectedState] = useState('');
   const usStates = [
     'Alabama',
@@ -131,8 +82,79 @@ function App() {
   ))
 
   const handleChange = (event) => {
-    setSelectedState(event.target.value)
+    const newState = event.target.value
+    setSelectedState(newState)
+    setFormData({
+      ...formData,
+      state: newState,
+    })
+    localStorage.setItem('state', newState)
   }
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target
+    setFormData({
+      ...formData,
+      [name]: value,
+    })
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const existingEmployees = employees || [];
+
+    const newEmployee = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      dateBirth: formData.dateBirth,
+      dateStart: formData.dateStart,
+      department: formData.department,
+      address: formData.address,
+      city: formData.city,
+      state: formData.state,
+      zipCode: formData.zipCode,
+    };
+
+    const updatedEmployees = [...existingEmployees, newEmployee];
+    setEmployees(updatedEmployees);
+
+    setFormData({
+      firstName: '',
+      lastName: '',
+      dateBirth: '',
+      dateStart: '',
+      address: '',
+      city: '',
+      department: '',
+      zipCode: '',
+      state: '',
+    })
+
+    localStorage.setItem('employees', JSON.stringify(updatedEmployees));
+  }
+
+  useEffect(() => {
+    try {
+      const storedData = localStorage.getItem('formData');
+      if (storedData) {
+        setFormData(JSON.parse(storedData));
+      }
+
+      const storedEmployees = localStorage.getItem('employees');
+      if (storedEmployees) {
+        setEmployees(JSON.parse(storedEmployees));
+      }
+
+      const storedSelectedState = localStorage.getItem('state');
+      if (storedSelectedState) {
+        setSelectedState(storedSelectedState);
+      }
+    } catch (error) {
+      console.error('Erreur lors de la récupération des données depuis le localStorage :', error);
+    }
+  }, []);
+
 
   return (
     <div className="App">
@@ -157,40 +179,40 @@ function App() {
             <Typography className='form__title' variant='h5' sx={{ mt: 5, fontWeight: "bold", }} >Create Employee</Typography>
 
             <form onSubmit={handleSubmit} id='form'>
-              <InputLabel  className='inputLabel'>First Name</InputLabel>
-              <TextField variant='outlined' label='First Name' required fullWidth value={firstName} onChange={handleFirstName} />
+              <InputLabel className='inputLabel'>First Name</InputLabel>
+              <TextField variant='outlined' label='First Name' name='firstName' required fullWidth value={formData.firstName} onChange={handleInputChange} />
 
               <InputLabel className='inputLabel'>Last Name</InputLabel>
-              <TextField variant='outlined' label='Last Name' required value={lastName} onChange={handleLastName} />
+              <TextField variant='outlined' label='Last Name' name='lastName' required value={formData.lastName} onChange={handleInputChange} />
 
               <InputLabel className='inputLabel'>Date of Birth</InputLabel>
-              <TextField type='date' name='date-birth' required id='date-birth' variant='outlined' value={dateBirth} onChange={handleDateBirth} />
+              <TextField type='date' name='dateBirth' required id='dateBirth' variant='outlined' value={formData.dateBirth} onChange={handleInputChange} />
 
               <InputLabel className='inputLabel'>Start Date</InputLabel>
-              <TextField type='date' variant='outlined' required id='date-start' name='date-start' value={dateStart} onChange={handleDateStart} />
+              <TextField type='date' variant='outlined' required id='dateStart' name='dateStart' value={formData.dateStart} onChange={handleInputChange} />
 
-              <InputLabel className='inputLabel'>Adress</InputLabel>
-              <TextField variant='outlined' label='Adress' required name='adress' id='adress' value={adress} onChange={handleAdress} />
+              <InputLabel className='inputLabel'>address</InputLabel>
+              <TextField variant='outlined' label='address' required name='address' id='address' value={formData.address} onChange={handleInputChange} />
 
               <InputLabel className='inputLabel'>City</InputLabel>
-              <TextField variant='outlined' label='City' required id='firstname' value={city} onChange={handleCity} />
+              <TextField variant='outlined' label='City' name='city' required id='city' value={formData.city} onChange={handleInputChange} />
 
               <div className='form__state--div'>
                 <div>
                   <InputLabel className='inputLabel'>State</InputLabel>
-                  <Select id='state' value={selectedState} required onChange={handleChange}>
+                  <Select id='state' value={selectedState} name='state' required onChange={handleChange}>
                     {stateOptions}
                   </Select>
                 </div>
 
                 <div>
                   <InputLabel className='inputLabel'>Zip Code</InputLabel>
-                  <TextField type='number' required variant='outlined' id='zip-code' value={zipCode} onChange={handleZipCode} />
+                  <TextField type='number' required variant='outlined' name='zipCode' id='zipCode' value={formData.zipCode} onChange={handleInputChange} />
                 </div>
               </div>
 
               <InputLabel className='inputLabel'>Department</InputLabel>
-              <TextField variant='outlined' label='Department' id='department' required value={department} onChange={handleDepartment} />
+              <TextField variant='outlined' label='Department' id='department' name='department' required value={formData.department} onChange={handleInputChange} />
 
               <Button type='submit' variant='contained' sx={{ mt: 1, mb: 2, bgcolor: '#000' }}>Save</Button>
             </form>
