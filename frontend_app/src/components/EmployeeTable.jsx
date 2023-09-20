@@ -230,7 +230,7 @@ function EmployeeTable({ employees }) {
                             ))
                         ) : (
                             <TableRow>
-                                <TableCell colSpan={9}>No employees found.</TableCell>
+                                <TableCell colSpan={10}>No employees found.</TableCell>
                             </TableRow>
                         )}
                     </TableBody>
