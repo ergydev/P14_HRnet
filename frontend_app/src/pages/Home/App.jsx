@@ -221,7 +221,7 @@ function App() {
           <img src={Team} alt="Team building" className='home__img' />
         </div>
       </Container>
-      <Modal  />
+      <Modal title='Enregristrement employé' message="L'employé a bien été enregistré." />
     </div>
   );
 }
