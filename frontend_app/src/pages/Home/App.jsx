@@ -1,6 +1,6 @@
 import { Container, Typography, TextField, Select, MenuItem, InputLabel, Button } from '@mui/material'
 import React, { useState, useEffect } from 'react';
-
+import { Modal } from 'modal_plugin_react_course'
 
 import './App.css';
 import Team from '../../assets/team_meeting.jpg'
@@ -20,7 +20,8 @@ function App() {
     state: '',
   })
 
-  
+
+
   const [selectedState, setSelectedState] = useState('');
   const usStates = [
     'Alabama',
@@ -220,6 +221,7 @@ function App() {
           <img src={Team} alt="Team building" className='home__img' />
         </div>
       </Container>
+      <Modal  />
     </div>
   );
 }
