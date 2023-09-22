@@ -6,6 +6,16 @@ import './App.css';
 import Team from '../../assets/team_meeting.jpg'
 
 function App() {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true)
+  }
+
+  const closeModal = () => {
+    setModalOpen(false)
+  }
+
 
   const [employees, setEmployees] = useState([])
   const [formData, setFormData] = useState({
@@ -133,6 +143,8 @@ function App() {
     })
 
     localStorage.setItem('employees', JSON.stringify(updatedEmployees));
+
+    openModal()
   }
 
   useEffect(() => {
@@ -215,13 +227,16 @@ function App() {
               <InputLabel className='inputLabel'>Department</InputLabel>
               <TextField variant='outlined' label='Department' id='department' name='department' required value={formData.department} onChange={handleInputChange} />
 
-              <Button type='submit' variant='contained' sx={{ mt: 1, mb: 2, bgcolor: '#000' }}>Save</Button>
+              <Button type='submit' variant='contained' sx={{ mt: 1, mb: 2, bgcolor: '#000' }}  >Save</Button>
             </form>
           </div>
           <img src={Team} alt="Team building" className='home__img' />
         </div>
       </Container>
-      <Modal title='Enregristrement employé' message="L'employé a bien été enregistré." />
+      {modalOpen && (
+        <Modal title='Enregristrement employé' message="L'employé a bien été enregistré." open={modalOpen} onClose={closeModal} />
+      )
+      }
     </div>
   );
 }
