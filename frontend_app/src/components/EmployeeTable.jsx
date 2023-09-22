@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 function EmployeeTable({ employees }) {
     const [page, setPage] = useState(0)
-    const [rowsPerPage, setRowsPerPage] = useState(employees.length);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
     const [searchTerm, setSearchTerm] = useState('')
     const [sortCategory, setSortCategory] = useState('')
     const [sortOrder, setSortOrder] = useState('asc');
@@ -15,12 +15,13 @@ function EmployeeTable({ employees }) {
     }
 
     const handleChangeRowPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10))
+        const newRowsPerPage = parseInt(event.target.value, 10);
+        setRowsPerPage(newRowsPerPage)
         setPage(0)
     }
 
     const startIndex = page * rowsPerPage
-    const endIndex = startIndex + rowsPerPage
+    const endIndex = Math.min(startIndex + rowsPerPage, employees.length)
 
     const filteredEmployees = employees.filter((employee) => {
         const firstName = (employee.firstName || '').toLowerCase();
@@ -215,7 +216,7 @@ function EmployeeTable({ employees }) {
                     </TableHead>
                     <TableBody>
                         {Array.isArray(filteredEmployees) && filteredEmployees.length > 0 ? (
-                            sortedEmployees.map((employee, index) => (
+                            sortedEmployees.slice(startIndex, endIndex).map((employee, index) => (
                                 <TableRow key={index}>
                                     <TableCell>{employee.firstName || ''}</TableCell>
                                     <TableCell>{employee.lastName || ''}</TableCell>
