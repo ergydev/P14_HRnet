@@ -1,0 +1,22 @@
+{
+  "name": "modal_plugin_react_course",
+  "version": "1.0.0",
+  "description": "A plugin to open a modal",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ergydev/modal_plugin_react_course.git"
+  },
+  "keywords": [
+    "modal"
+  ],
+  "author": "Ergy Zenzo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ergydev/modal_plugin_react_course/issues"
+  },
+  "homepage": "https://github.com/ergydev/modal_plugin_react_course#readme"
+}
