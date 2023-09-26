@@ -1,7 +1,7 @@
 import { Table, TableBody, TableCell, TableHead, TableRow, TableContainer, Paper, TablePagination, TextField } from '@mui/material/';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function EmployeeTable({ employees }) {
     const [page, setPage] = useState(0)
@@ -9,6 +9,7 @@ function EmployeeTable({ employees }) {
     const [searchTerm, setSearchTerm] = useState('')
     const [sortCategory, setSortCategory] = useState('')
     const [sortOrder, setSortOrder] = useState('asc');
+    const [filteredEmployees, setFilteredEmployees] = useState(employees);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage)
@@ -20,97 +21,7 @@ function EmployeeTable({ employees }) {
         setPage(0)
     }
 
-    const startIndex = page * rowsPerPage
-    const endIndex = Math.min(startIndex + rowsPerPage, employees.length)
-
-    const filteredEmployees = employees.filter((employee) => {
-        const firstName = (employee.firstName || '').toLowerCase();
-        const lastName = (employee.lastName || '').toLowerCase();
-        const dateStart = employee.dateStart || '';
-        const department = (employee.department || '').toLowerCase();
-        const dateBirth = employee.dateBirth || '';
-        const address = (employee.street || '').toLowerCase();
-        const city = (employee.city || '').toLowerCase();
-        const state = (employee.state || '').toLowerCase();
-        const zipCode = (employee.zipCode || '');
-
-        return (
-            firstName.includes(searchTerm.toLowerCase()) ||
-            lastName.includes(searchTerm.toLowerCase()) ||
-            dateStart.includes(searchTerm) ||
-            department.includes(searchTerm.toLowerCase()) ||
-            dateBirth.includes(searchTerm) ||
-            address.includes(searchTerm.toLowerCase()) ||
-            city.includes(searchTerm.toLowerCase()) ||
-            state.includes(searchTerm.toLowerCase()) ||
-            zipCode.includes(searchTerm)
-        );
-    })
-
-    const sortByName = (a, b) => {
-        if (sortOrder === 'asc') {
-            return a.lastName.localeCompare(b.lastName);
-        } else {
-            return b.lastName.localeCompare(a.lastName);
-        }
-    };
-    const sortByFirstName = (a, b) => {
-        if (sortOrder === 'asc') {
-            return a.firstName.localeCompare(b.firstName);
-        } else {
-            return b.firstName.localeCompare(a.firstName);
-        }
-    };
-    const sortByDateStart = (a, b) => {
-        if (sortOrder === 'asc') {
-            return a.dateStart.localeCompare(b.dateStart);
-        } else {
-            return b.dateStart.localeCompare(a.dateStart);
-        }
-    };
-    const sortByDateBirth = (a, b) => {
-        if (sortOrder === 'asc') {
-            return a.dateBirth.localeCompare(b.dateBirth);
-        } else {
-            return b.dateBirth.localeCompare(a.dateBirth);
-        }
-    };
-    const sortByDepartment = (a, b) => {
-        if (sortOrder === 'asc') {
-            return a.department.localeCompare(b.department);
-        } else {
-            return b.department.localeCompare(a.department);
-        }
-    };
-    const sortByAddress = (a, b) => {
-        if (sortOrder === 'asc') {
-            return a.street.localeCompare(b.street);
-        } else {
-            return b.street.localeCompare(a.street);
-        }
-    };
-    const sortByCity = (a, b) => {
-        if (sortOrder === 'asc') {
-            return a.city.localeCompare(b.city);
-        } else {
-            return b.city.localeCompare(a.city);
-        }
-    };
-    const sortByState = (a, b) => {
-        if (sortOrder === 'asc') {
-            return a.state.localeCompare(b.state);
-        } else {
-            return b.state.localeCompare(a.state);
-        }
-    };
-    const sortByZipCode = (a, b) => {
-        if (sortOrder === 'asc') {
-            return a.zipCode.localeCompare(b.zipCode);
-        } else {
-            return b.zipCode.localeCompare(a.zipCode);
-        }
-    };
-
+    
     const handleSortCategoryChange = (newSortCategory) => {
         if (newSortCategory === sortCategory) {
             setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
@@ -120,39 +31,40 @@ function EmployeeTable({ employees }) {
         }
     };
 
-    const handleSortOrderChange = () => {
-        const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
-        setSortOrder(newSortOrder);
-    };
 
-    const sortedEmployees = [...filteredEmployees].sort((a, b) => {
-        switch (sortCategory) {
-            case 'lastname':
-                return sortByName(a, b);
-            case 'firstname':
-                return sortByFirstName(a, b);
-            case 'dateStart':
-                return sortByDateStart(a, b);
-            case 'dateBirth':
-                return sortByDateBirth(a, b);
-            case 'department':
-                return sortByDepartment(a, b);
-            case 'street':
-                return sortByAddress(a, b);
-            case 'city':
-                return sortByCity(a, b);
-            case 'zipCode':
-                return sortByZipCode(a, b);
-            case 'state':
-                return sortByState(a, b);
-            default:
-                return 0;
-        }
-    });
+    useEffect(() => {
 
-    if (sortOrder === 'desc') {
-        sortedEmployees.reverse();
-    }
+        const filtered = employees.filter((employee) => {
+            const lowerCaseSearchTerm = searchTerm.toLowerCase();
+            return (
+                (typeof employee.firstName === 'string' && employee.firstName.toLowerCase().includes(lowerCaseSearchTerm)) ||
+                (typeof employee.lastName === 'string' && employee.lastName.toLowerCase().includes(lowerCaseSearchTerm)) ||
+                (typeof employee.dateStart === 'string' && employee.dateStart.includes(searchTerm)) ||
+                (typeof employee.department === 'string' && employee.department.toLowerCase().includes(lowerCaseSearchTerm)) ||
+                (typeof employee.dateBirth === 'string' && employee.dateBirth.includes(searchTerm)) ||
+                (typeof employee.street === 'string' && employee.street.includes(searchTerm)) ||
+                (typeof employee.city === 'string' && employee.city.toLowerCase().includes(lowerCaseSearchTerm)) ||
+                (typeof employee.state === 'string' && employee.state.toLowerCase().includes(lowerCaseSearchTerm)) ||
+                (typeof employee.zipCode === 'string' && employee.zipCode.includes(searchTerm))
+            );
+        })
+
+        const sorted = [...filtered].sort((a, b) => {
+            const categoryA = a[sortCategory];
+            const categoryB = b[sortCategory];
+            if (categoryA < categoryB) return sortOrder === 'asc' ? -1 : 1;
+            if (categoryA > categoryB) return sortOrder === 'asc' ? 1 : -1;
+            return 0;
+        })
+
+        setFilteredEmployees(sorted);
+    }, [employees, searchTerm, sortCategory, sortOrder]);
+
+
+    const startIndex = page * rowsPerPage
+    const endIndex = Math.min(startIndex + rowsPerPage, employees.length)
+
+
 
     const renderSortArrow = (category) => {
         if (sortCategory === category) {
@@ -216,7 +128,7 @@ function EmployeeTable({ employees }) {
                     </TableHead>
                     <TableBody>
                         {Array.isArray(filteredEmployees) && filteredEmployees.length > 0 ? (
-                            sortedEmployees.slice(startIndex, endIndex).map((employee, index) => (
+                            filteredEmployees.slice(startIndex, endIndex).map((employee, index) => (
                                 <TableRow key={index}>
                                     <TableCell>{employee.firstName || ''}</TableCell>
                                     <TableCell>{employee.lastName || ''}</TableCell>
@@ -239,7 +151,7 @@ function EmployeeTable({ employees }) {
             </TableContainer>
             <TablePagination
                 component="div"
-                count={employees.length}
+                count={filteredEmployees.length}
                 page={page}
                 onPageChange={handleChangePage}
                 rowsPerPage={rowsPerPage}
