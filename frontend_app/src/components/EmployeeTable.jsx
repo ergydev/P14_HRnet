@@ -65,8 +65,6 @@ function EmployeeTable() {
         setFilteredEmployees(sorted);
     }, [employees, searchTerm, sortCategory, sortOrder]);
 
-    console.log(filteredEmployees)
-
     const startIndex = page * rowsPerPage
     const endIndex = Math.min(startIndex + rowsPerPage, employees.length)
 

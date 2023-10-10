@@ -128,7 +128,6 @@ function App() {
     };
 
     dispatch(addEmployee(newEmployee))
-    console.log('New Employee :', newEmployee)
 
     setFormData({
       firstName: '',
