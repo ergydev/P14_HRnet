@@ -1,20 +1,8 @@
 import { Container, Typography } from '@mui/material/';
-import { useEffect, useState } from 'react';
-
 
 import EmployeeTable from '../../components/EmployeeTable';
 
 const EmployeeList = () => {
-    const [employees, setEmployees] = useState([]);
-
-    useEffect(() => {
-        const storedEmployees = localStorage.getItem('employees');
-        if (storedEmployees) {
-            const parseData = JSON.parse(storedEmployees);
-            setEmployees(parseData);
-        }
-    }, []);
-
 
     return (
         <Container>
@@ -35,7 +23,7 @@ const EmployeeList = () => {
                 </Typography>
             </div>
 
-            <EmployeeTable employees={employees} />
+            <EmployeeTable  />
         </Container >
     );
 }

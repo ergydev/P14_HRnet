@@ -2,13 +2,16 @@ import { Table, TableBody, TableCell, TableHead, TableRow, TableContainer, Paper
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
-function EmployeeTable({ employees }) {
+function EmployeeTable() {
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [searchTerm, setSearchTerm] = useState('')
     const [sortCategory, setSortCategory] = useState('')
     const [sortOrder, setSortOrder] = useState('asc');
+    
+    const employees = useSelector((state) => state.employees) || [];
     const [filteredEmployees, setFilteredEmployees] = useState(employees);
 
     const handleChangePage = (event, newPage) => {
@@ -17,8 +20,7 @@ function EmployeeTable({ employees }) {
 
     const handleChangeRowPerPage = (event) => {
         const newRowsPerPage = parseInt(event.target.value, 10);
-        setRowsPerPage(newRowsPerPage)
-        setPage(0)
+        setRowsPerPage(newRowsPerPage);
     }
 
     
@@ -33,7 +35,9 @@ function EmployeeTable({ employees }) {
 
 
     useEffect(() => {
-
+        if(!Array.isArray(employees)) {
+            return
+        }
         const filtered = employees.filter((employee) => {
             const lowerCaseSearchTerm = searchTerm.toLowerCase();
             return (
@@ -59,7 +63,6 @@ function EmployeeTable({ employees }) {
 
         setFilteredEmployees(sorted);
     }, [employees, searchTerm, sortCategory, sortOrder]);
-
 
     const startIndex = page * rowsPerPage
     const endIndex = Math.min(startIndex + rowsPerPage, employees.length)
