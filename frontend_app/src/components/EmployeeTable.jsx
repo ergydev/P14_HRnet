@@ -12,7 +12,6 @@ function EmployeeTable() {
     const [sortOrder, setSortOrder] = useState('asc');
     
     const employees = useSelector((state) => state.employees) || [];
-    console.log(employees)
     const [filteredEmployees, setFilteredEmployees] = useState(employees);
 
     const handleChangePage = (event, newPage) => {
