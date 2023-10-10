@@ -1,12 +1,16 @@
 import { Container, Typography, TextField, Select, MenuItem, InputLabel, Button } from '@mui/material'
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Modal } from 'modal_plugin_react_course'
+import { useDispatch } from 'react-redux';
+import { addEmployee } from '../../services/employeeSlice';
 
 import './App.css';
 import Team from '../../assets/team_meeting.jpg'
 
 function App() {
   const [modalOpen, setModalOpen] = useState(false);
+  const dispatch = useDispatch();
+
 
   const openModal = () => {
     setModalOpen(true)
@@ -16,8 +20,6 @@ function App() {
     setModalOpen(false)
   }
 
-
-  const [employees, setEmployees] = useState([])
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -113,8 +115,6 @@ function App() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const existingEmployees = employees || [];
-
     const newEmployee = {
       firstName: formData.firstName,
       lastName: formData.lastName,
@@ -127,8 +127,8 @@ function App() {
       zipCode: formData.zipCode,
     };
 
-    const updatedEmployees = [...existingEmployees, newEmployee];
-    setEmployees(updatedEmployees);
+    dispatch(addEmployee(newEmployee))
+    console.log('New Employee :', newEmployee)
 
     setFormData({
       firstName: '',
@@ -142,31 +142,8 @@ function App() {
       state: '',
     })
 
-    localStorage.setItem('employees', JSON.stringify(updatedEmployees));
-
     openModal()
   }
-
-  useEffect(() => {
-    try {
-      const storedData = localStorage.getItem('formData');
-      if (storedData) {
-        setFormData(JSON.parse(storedData));
-      }
-
-      const storedEmployees = localStorage.getItem('employees');
-      if (storedEmployees) {
-        setEmployees(JSON.parse(storedEmployees));
-      }
-
-      const storedSelectedState = localStorage.getItem('state');
-      if (storedSelectedState) {
-        setSelectedState(storedSelectedState);
-      }
-    } catch (error) {
-      console.error('Erreur lors de la récupération des données depuis le localStorage :', error);
-    }
-  }, []);
 
 
   return (
